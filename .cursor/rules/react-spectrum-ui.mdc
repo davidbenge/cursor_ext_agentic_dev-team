@@ -1,0 +1,475 @@
+---
+alwaysApply: false
+---
+
+<!-- FRAMEWORK EXAMPLE: This rule demonstrates how to author a UI-framework-specific Cursor rule.
+     Replace the contents below with conventions for your own UI framework (MUI, Tailwind, Ant Design, etc.)
+     or delete this file if it does not apply to your project. -->
+
+# rule: react_spectrum_ui
+
+## Adobe React Spectrum UI Standards
+
+Both projects use **Adobe React Spectrum** exclusively for UI components.
+
+### Core Principle
+
+**ALWAYS use React Spectrum components. NEVER use other UI frameworks** (Material-UI, Ant Design, Bootstrap, etc.)
+
+### Installation
+
+```bash
+npm install @adobe/react-spectrum
+npm install @spectrum-icons/workflow  # For icons
+```
+
+### Basic Usage
+
+```typescript
+import React from 'react';
+import { Provider, defaultTheme } from '@adobe/react-spectrum';
+import {
+  Button,
+  Flex,
+  Heading,
+  View,
+  TextField,
+  Grid,
+} from '@adobe/react-spectrum';
+
+export function MyComponent() {
+  return (
+    <Provider theme={defaultTheme}>
+      <View padding="size-200">
+        <Flex direction="column" gap="size-200">
+          <Heading level={2}>Title</Heading>
+          <TextField label="Name" />
+          <Button variant="cta">Submit</Button>
+        </Flex>
+      </View>
+    </Provider>
+  );
+}
+```
+
+### Required: Provider Wrapper
+
+**ALL Spectrum components must be wrapped in a `<Provider>`:**
+
+```typescript
+import { Provider, defaultTheme } from '@adobe/react-spectrum';
+
+// ✅ Wrap your app
+function App() {
+  return (
+    <Provider theme={defaultTheme}>
+      {/* Your components */}
+    </Provider>
+  );
+}
+
+// ❌ Don't use Spectrum components without Provider
+function App() {
+  return <Button>Click me</Button>; // Will not work!
+}
+```
+
+### Sizing System
+
+Spectrum uses a **dimension scale** instead of pixel values. **NEVER use hardcoded pixels.**
+
+#### Spacing Tokens
+```typescript
+// ✅ Use Spectrum sizing tokens
+<View padding="size-200">
+<Flex gap="size-150">
+<View marginTop="size-300">
+
+// ❌ Don't use pixel values
+<div style={{ padding: '16px' }}>
+<div style={{ gap: '12px' }}>
+```
+
+#### Available Size Tokens
+- `size-0` to `size-6000` - Responsive sizing
+- `static-size-0` to `static-size-6000` - Fixed sizing
+- Common values:
+  - `size-50` - 4px
+  - `size-100` - 8px
+  - `size-150` - 12px
+  - `size-200` - 16px
+  - `size-250` - 20px
+  - `size-300` - 24px
+  - `size-400` - 32px
+  - `size-500` - 40px
+  - `size-600` - 48px
+
+### Common Components
+
+#### Layout Components
+```typescript
+import { Flex, Grid, View, Divider } from '@adobe/react-spectrum';
+
+// Flex for flexbox layouts
+<Flex
+  direction="row" // or "column"
+  gap="size-200"
+  justifyContent="space-between"
+  alignItems="center"
+>
+  {/* children */}
+</Flex>
+
+// Grid for grid layouts
+<Grid
+  columns={['1fr', '2fr', '1fr']}
+  rows={['auto']}
+  gap="size-200"
+>
+  {/* children */}
+</Grid>
+
+// View for generic containers
+<View
+  padding="size-200"
+  backgroundColor="gray-100"
+  borderRadius="medium"
+>
+  {/* children */}
+</View>
+```
+
+#### Form Components
+```typescript
+import {
+  TextField,
+  TextArea,
+  Checkbox,
+  RadioGroup,
+  Radio,
+  Picker,
+  Item,
+} from '@adobe/react-spectrum';
+
+// Text Input
+<TextField
+  label="Email"
+  placeholder="user@example.com"
+  isRequired
+  type="email"
+/>
+
+// Select/Dropdown
+<Picker label="Status">
+  <Item key="active">Active</Item>
+  <Item key="inactive">Inactive</Item>
+</Picker>
+
+// Checkbox
+<Checkbox>Subscribe to newsletter</Checkbox>
+
+// Radio Group
+<RadioGroup label="Priority">
+  <Radio value="high">High</Radio>
+  <Radio value="medium">Medium</Radio>
+  <Radio value="low">Low</Radio>
+</RadioGroup>
+```
+
+#### Button Variants
+```typescript
+import { Button } from '@adobe/react-spectrum';
+
+// Primary action
+<Button variant="cta">Submit</Button>
+
+// Secondary action
+<Button variant="primary">Save</Button>
+
+// Tertiary action
+<Button variant="secondary">Cancel</Button>
+
+// Negative action
+<Button variant="negative">Delete</Button>
+
+// With icon
+import Add from '@spectrum-icons/workflow/Add';
+<Button variant="cta">
+  <Add />
+  <Text>Add Item</Text>
+</Button>
+```
+
+#### Navigation
+```typescript
+import { Tabs, TabList, TabPanels, Item } from '@adobe/react-spectrum';
+
+<Tabs>
+  <TabList>
+    <Item key="details">Details</Item>
+    <Item key="settings">Settings</Item>
+  </TabList>
+  <TabPanels>
+    <Item key="details">{/* Details content */}</Item>
+    <Item key="settings">{/* Settings content */}</Item>
+  </TabPanels>
+</Tabs>
+```
+
+#### Overlays
+```typescript
+import {
+  DialogTrigger,
+  Dialog,
+  Heading,
+  Content,
+  ButtonGroup,
+  Button,
+} from '@adobe/react-spectrum';
+
+<DialogTrigger>
+  <Button variant="cta">Open Dialog</Button>
+  {(close) => (
+    <Dialog>
+      <Heading>Confirm Action</Heading>
+      <Content>Are you sure?</Content>
+      <ButtonGroup>
+        <Button variant="secondary" onPress={close}>Cancel</Button>
+        <Button variant="cta" onPress={close}>Confirm</Button>
+      </ButtonGroup>
+    </Dialog>
+  )}
+</DialogTrigger>
+```
+
+### Icons
+
+```typescript
+import { Button } from '@adobe/react-spectrum';
+import Add from '@spectrum-icons/workflow/Add';
+import Delete from '@spectrum-icons/workflow/Delete';
+import Edit from '@spectrum-icons/workflow/Edit';
+
+<Button>
+  <Add />
+  <Text>Add</Text>
+</Button>
+
+<Button>
+  <Delete />
+  <Text>Delete</Text>
+</Button>
+```
+
+Browse all icons: https://react-spectrum.adobe.com/react-spectrum/workflow-icons.html
+
+### Accessibility
+
+Spectrum components are **accessible by default**, but follow these practices:
+
+```typescript
+// ✅ Always provide labels
+<TextField label="Email" />
+
+// ✅ Use aria-label for icon-only buttons
+<Button aria-label="Delete item">
+  <Delete />
+</Button>
+
+// ✅ Provide meaningful descriptions
+<TextField
+  label="Password"
+  description="Must be at least 8 characters"
+  errorMessage="Password is too short"
+/>
+```
+
+### Responsive Design
+
+```typescript
+import { useBreakpoint } from '@adobe/react-spectrum';
+
+function MyComponent() {
+  const breakpoint = useBreakpoint();
+  
+  return (
+    <Flex direction={breakpoint === 'S' ? 'column' : 'row'}>
+      {/* Responsive layout */}
+    </Flex>
+  );
+}
+```
+
+### State Management
+
+```typescript
+// ✅ Controlled components
+const [value, setValue] = useState('');
+
+<TextField
+  label="Name"
+  value={value}
+  onChange={setValue}
+/>
+
+// ✅ Form validation
+const [isValid, setIsValid] = useState(true);
+
+<TextField
+  label="Email"
+  validationState={isValid ? 'valid' : 'invalid'}
+  errorMessage={!isValid && "Please enter a valid email"}
+/>
+```
+
+### Common Patterns
+
+#### Loading States
+```typescript
+import { ProgressCircle, Button } from '@adobe/react-spectrum';
+
+{loading ? (
+  <ProgressCircle aria-label="Loading" isIndeterminate />
+) : (
+  <Button>Submit</Button>
+)}
+```
+
+#### Empty States
+```typescript
+import { IllustratedMessage, Heading, Content } from '@adobe/react-spectrum';
+import NotFound from '@spectrum-icons/illustrations/NotFound';
+
+<IllustratedMessage>
+  <NotFound />
+  <Heading>No results found</Heading>
+  <Content>Try adjusting your search criteria</Content>
+</IllustratedMessage>
+```
+
+#### Toast Notifications
+```typescript
+import { ToastContainer, useToast } from '@adobe/react-spectrum';
+
+function MyComponent() {
+  const toast = useToast();
+  
+  const showToast = () => {
+    toast.positive('Operation successful!', { timeout: 3000 });
+  };
+  
+  return (
+    <>
+      <Button onPress={showToast}>Show Toast</Button>
+      <ToastContainer />
+    </>
+  );
+}
+```
+
+### Theme Customization
+
+```typescript
+import { Provider, theme } from '@adobe/react-spectrum';
+
+// Use custom theme
+<Provider theme={theme} colorScheme="dark">
+  {/* Your app */}
+</Provider>
+
+// Or default theme
+<Provider theme={defaultTheme}>
+  {/* Your app */}
+</Provider>
+```
+
+### Performance Tips
+
+1. **Use memoization for expensive renders:**
+```typescript
+const MemoizedCard = memo(ODPCard);
+```
+
+2. **Use collections efficiently:**
+```typescript
+import { ListView, Item } from '@adobe/react-spectrum';
+
+<ListView items={odps}>
+  {(item) => <Item key={item.id}>{item.name}</Item>}
+</ListView>
+```
+
+3. **Avoid unnecessary re-renders:**
+```typescript
+const handleChange = useCallback((value: string) => {
+  setValue(value);
+}, []);
+```
+
+### Common Mistakes to Avoid
+
+**DON'T**:
+```typescript
+// ❌ Don't mix UI frameworks
+import { Button } from '@mui/material'; // NO!
+
+// ❌ Don't use pixel values
+<View padding="16px"> // Use size tokens!
+
+// ❌ Don't forget Provider
+<Button>Click me</Button> // Won't work without Provider
+
+// ❌ Don't use div/span for layout
+<div style={{ display: 'flex' }}> // Use Flex component!
+```
+
+**DO**:
+```typescript
+// ✅ Use Spectrum exclusively
+import { Button } from '@adobe/react-spectrum';
+
+// ✅ Use size tokens
+<View padding="size-200">
+
+// ✅ Wrap in Provider
+<Provider theme={defaultTheme}>
+  <Button>Click me</Button>
+</Provider>
+
+// ✅ Use Spectrum layout components
+<Flex direction="row" gap="size-200">
+```
+
+### When to Use MCPs (Live Data)
+
+Prefer **MCP tools** for live component APIs, tokens, icons, and docs so the rule stays focused on conventions.
+
+| Need | MCP Server | Tools |
+|------|------------|--------|
+| Component API, props, examples | **React Spectrum S2** | `list_s2_pages` → `get_s2_page_info` → `get_s2_page` (by `page_name`, optional `section_name`) |
+| Size/color token allowed values | **React Spectrum S2** | `get_style_macro_property_values` (e.g. `propertyName`: `"padding"`, `"gap"`) |
+| Icon or illustration by term | **React Spectrum S2** | `search_s2_icons`, `search_s2_illustrations` (`terms`: string or string[]) |
+| Color/pixel → closest token | **Spectrum Vars MCP Server** | `search_spectrum_vars` (`query`: color or pixel, `scale`: MEDIUM/LARGE) |
+| Latest docs or code examples | **context7** | `resolve-library-id` (e.g. "React Spectrum") → `query-docs` with specific question |
+
+Use this rule for: Provider requirement, sizing principle (tokens not pixels), Spectrum-only policy, and patterns. Use MCPs when you need current API details, token value lists, or icon/illustration names.
+
+### Resources
+
+- [React Spectrum Docs](https://react-spectrum.adobe.com/react-spectrum/)
+- [Spectrum Design System](https://spectrum.adobe.com/)
+- [Workflow Icons](https://react-spectrum.adobe.com/react-spectrum/workflow-icons.html)
+- [API Reference](https://react-spectrum.adobe.com/react-spectrum/getting-started.html)
+
+### Quick Reference
+
+| Need | Component | Import |
+|------|-----------|--------|
+| Button | `<Button>` | `@adobe/react-spectrum` |
+| Text Input | `<TextField>` | `@adobe/react-spectrum` |
+| Dropdown | `<Picker>` | `@adobe/react-spectrum` |
+| Layout | `<Flex>`, `<Grid>` | `@adobe/react-spectrum` |
+| Modal | `<Dialog>` | `@adobe/react-spectrum` |
+| Table | `<TableView>` | `@adobe/react-spectrum` |
+| List | `<ListView>` | `@adobe/react-spectrum` |
+| Icons | `<Add>`, `<Edit>` | `@spectrum-icons/workflow` |

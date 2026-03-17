@@ -1,0 +1,13 @@
+---
+description: Scripts must live under scripts/ and follow the folder structure in architecture.md
+globs: scripts/**/*
+alwaysApply: false
+---
+
+# Scripts Conventions
+
+- All project scripts belong under `scripts/`.
+- Follow the folder structure in [docs/design-principles/architecture.md](docs/design-principles/architecture.md): `setup/`, `migrations/`, `deploy/`, `generate/`, `ingest/`, `verify/`, `dev/`, and optionally `lib/` for shared helpers.
+- One script per concern; document purpose, env vars, and usage in a header comment.
+- Use TypeScript for logic that uses app types or Neo4j; use shell for simple setup/deploy.
+- When adding a new script, place it in the correct subdirectory; do not add scripts at repo root or under `src/`.

@@ -1,0 +1,14 @@
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Dependencies
+node_modules/
+
+# macOS
+.DS_Store
+
+# Ephemeral framework files (in-flight story/epic plans — never commit)
+docs/stories/
+docs/epics/

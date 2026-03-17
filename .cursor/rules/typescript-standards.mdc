@@ -1,0 +1,316 @@
+# rule: typescript_standards
+
+## TypeScript Coding Standards
+
+These standards apply to TypeScript code in **both projects**, though each has project-specific configurations.
+
+### Configuration
+
+**CRITICAL**: Each project has its own TypeScript configuration. NEVER mix them.
+
+- **Publishing**: Dual configs (`tsconfig.actions.json` for Node.js, `tsconfig.web.json` for React)
+- **Diagramming**: Single config (`tsconfig.json`) with strict mode
+
+### Code Style
+
+#### Strict Mode
+Always enable strict mode:
+```json
+{
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true
+  }
+}
+```
+
+#### Type Definitions
+
+**DO**:
+```typescript
+// ✅ Define interfaces for data structures
+interface ODPDefinition {
+  id: string;
+  name: string;
+  type: 'product' | 'service' | 'component';
+}
+
+// ✅ Use type inference where obvious
+const count = 42; // inferred as number
+
+// ✅ Use explicit types for function parameters and returns
+function fetchODP(id: string): Promise<ODPDefinition> {
+  // ...
+}
+
+// ✅ Use unknown for truly unknown types
+function parse(data: unknown): ODPDefinition {
+  // validate and narrow type
+}
+```
+
+**DON'T**:
+```typescript
+// ❌ Avoid any
+function process(data: any) { }
+
+// ❌ Don't use implicit any
+function process(data) { } // error with strict mode
+
+// ❌ Don't use type assertions without validation
+const odp = response as ODPDefinition; // unsafe
+```
+
+#### Interfaces vs Types
+
+**Use interfaces** for:
+- Object shapes that might be extended
+- Public APIs
+- Class definitions
+
+**Use types** for:
+- Unions and intersections
+- Mapped types
+- Function types
+- Utility types
+
+```typescript
+// ✅ Interface for extensible objects
+interface BaseODP {
+  id: string;
+  name: string;
+}
+
+interface ProductODP extends BaseODP {
+  vendor: string;
+}
+
+// ✅ Type for unions
+type ODPType = 'product' | 'service' | 'component';
+
+// ✅ Type for function signatures
+type Fetcher = (id: string) => Promise<ODPDefinition>;
+```
+
+### Import Organization
+
+Always organize imports in this order:
+```typescript
+// 1. React and React-related
+import React, { useState, useEffect } from 'react';
+
+// 2. Third-party libraries
+import { Button, Flex } from '@adobe/react-spectrum';
+import neo4j from 'neo4j-driver';
+
+// 3. Local components
+import { ODPCard } from './components/ODPCard';
+import { Canvas } from './components/Canvas';
+
+// 4. Local utilities
+import { parseODP } from './utils/odp-parser';
+import { logger } from './utils/logger';
+
+// 5. Types
+import type { ODPDefinition, Port } from './types';
+
+// 6. Styles (if any)
+import './styles.css';
+```
+
+### Error Handling
+
+```typescript
+// ✅ Use explicit error handling
+async function fetchODP(id: string): Promise<ODPDefinition> {
+  try {
+    const response = await fetch(`/api/odp/${id}`);
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    logger.error('Failed to fetch ODP:', error);
+    throw error; // or handle appropriately
+  }
+}
+
+// ✅ Type error objects
+function isErrorWithMessage(error: unknown): error is { message: string } {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'message' in error &&
+    typeof (error as { message: unknown }).message === 'string'
+  );
+}
+
+// Use it
+try {
+  // ...
+} catch (error) {
+  if (isErrorWithMessage(error)) {
+    console.error(error.message);
+  }
+}
+```
+
+### Async/Await
+
+```typescript
+// ✅ Use async/await for clarity
+async function loadODPs(): Promise<ODPDefinition[]> {
+  const ids = await getODPIds();
+  const odps = await Promise.all(ids.map(id => fetchODP(id)));
+  return odps.filter(odp => odp.type === 'product');
+}
+
+// ❌ Avoid promise chains when possible
+function loadODPs(): Promise<ODPDefinition[]> {
+  return getODPIds()
+    .then(ids => Promise.all(ids.map(id => fetchODP(id))))
+    .then(odps => odps.filter(odp => odp.type === 'product'));
+}
+```
+
+### React Hooks
+
+```typescript
+// ✅ Type hooks properly
+const [count, setCount] = useState<number>(0);
+const [data, setData] = useState<ODPDefinition | null>(null);
+
+// ✅ Use functional updates
+setCount(prev => prev + 1);
+
+// ✅ Type custom hooks
+function useODP(id: string): {
+  odp: ODPDefinition | null;
+  loading: boolean;
+  error: Error | null;
+} {
+  const [odp, setODP] = useState<ODPDefinition | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+  
+  useEffect(() => {
+    fetchODP(id)
+      .then(setODP)
+      .catch(setError)
+      .finally(() => setLoading(false));
+  }, [id]);
+  
+  return { odp, loading, error };
+}
+```
+
+### Utility Types
+
+Leverage TypeScript's utility types:
+```typescript
+// Partial - make all properties optional
+type PartialODP = Partial<ODPDefinition>;
+
+// Pick - select specific properties
+type ODPPreview = Pick<ODPDefinition, 'id' | 'name' | 'type'>;
+
+// Omit - exclude specific properties
+type ODPWithoutPorts = Omit<ODPDefinition, 'ports'>;
+
+// Record - create object type
+type ODPCache = Record<string, ODPDefinition>;
+
+// ReturnType - extract return type
+type FetchResult = ReturnType<typeof fetchODP>;
+```
+
+### Common Patterns
+
+#### API Response Types
+```typescript
+interface APIResponse<T> {
+  data: T;
+  statusCode: number;
+  error?: string;
+}
+
+async function apiCall<T>(url: string): Promise<APIResponse<T>> {
+  // ...
+}
+```
+
+#### Discriminated Unions
+```typescript
+type ODPEvent =
+  | { type: 'created'; odp: ODPDefinition }
+  | { type: 'updated'; id: string; changes: Partial<ODPDefinition> }
+  | { type: 'deleted'; id: string };
+
+function handleEvent(event: ODPEvent) {
+  switch (event.type) {
+    case 'created':
+      console.log('Created:', event.odp.name);
+      break;
+    case 'updated':
+      console.log('Updated:', event.id);
+      break;
+    case 'deleted':
+      console.log('Deleted:', event.id);
+      break;
+  }
+}
+```
+
+### Comments and Documentation
+
+```typescript
+/**
+ * Fetches an ODP definition by its unique identifier.
+ * 
+ * @param id - The unique IRI of the ODP
+ * @returns Promise resolving to the ODP definition
+ * @throws {Error} If the ODP is not found or network fails
+ * 
+ * @example
+ * ```ts
+ * const odp = await fetchODP('https://example.com/odp/aem-assets');
+ * console.log(odp.name);
+ * ```
+ */
+async function fetchODP(id: string): Promise<ODPDefinition> {
+  // Implementation
+}
+```
+
+### Testing Types
+
+```typescript
+// ✅ Type test mocks
+const mockODP: ODPDefinition = {
+  id: 'test-123',
+  name: 'Test ODP',
+  type: 'product',
+  // ...
+};
+
+// ✅ Type test helpers
+function createMockODP(overrides?: Partial<ODPDefinition>): ODPDefinition {
+  return {
+    id: 'test-123',
+    name: 'Test ODP',
+    type: 'product',
+    ...overrides,
+  };
+}
+```
+
+### Key Reminders
+
+1. **Always use strict mode** - Catch errors early
+2. **Avoid `any`** - Use `unknown` and type guards
+3. **Type function signatures** - Parameters and return types
+4. **Use utility types** - Don't reinvent the wheel
+5. **Document complex types** - Help future developers
+6. **Test type safety** - Ensure types match runtime behavior
