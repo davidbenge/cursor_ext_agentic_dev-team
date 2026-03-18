@@ -33,7 +33,7 @@ Follow four phases: **Discovery** → **Design** → **Implementation** → **Ve
 
 **Goal**: Define name, description, and structure before writing.
 
-- [ ] **Name**: Persona: lowercase, single word or hyphenated (e.g. `product-manager`, `graph-db-specialist`, `app-builder-actions-developer` for platform-specific roles). Command: lowercase, hyphenated; Story Planner commands use `plan-*`, Developer commands use `dev-*` or `review-*` (e.g. `plan-new-backlog-story`, `dev-completed-implementation`, `review-persona-skills`).
+- [ ] **Name**: Persona: lowercase, single word or hyphenated (e.g. `product-manager`, `postgres-specialist`, `node-backend-developer` for stack-specific roles). Command: lowercase, hyphenated; Story Planner commands use `plan-*`, Developer commands use `dev-*` or `review-*` (e.g. `plan-new-backlog-story`, `dev-completed-implementation`, `review-persona-skills`).
 - [ ] **Description**: One line, third person, WHAT + WHEN; include trigger terms (see [Description best practices](#description-best-practices)).
 - [ ] **Sections**: Persona: Principles, Role Boundary, **Instructions** (phases as subsections if needed). **When to Use** (optional; discovery can rely on frontmatter `description`). Command: Invoked by, Chains to; then either Pre-check + Execute, or Load + Phases (see [Command structure](#command-structure)).
 - [ ] **Supporting files**: Personas may reference design-principles, impl-log, or other docs. Keep SKILL.md under ~500 lines.
@@ -65,7 +65,7 @@ External guidance (Cursor docs, [agentskills.io](https://agentskills.io/), creat
 
 - **When to Use** in-body (optional): A short section can reinforce trigger scenarios when the full skill is loaded; discovery can rely on frontmatter `description` (WHAT + WHEN + trigger terms).
 - **Instructions**: Step-by-step directions; domain-specific conventions and best practices in one place.
-- **Progressive disclosure**: Discovery (name/description) → Activation (full SKILL.md) → Execution (follow instructions, load referenced docs). Keep SKILL.md under ~500 lines; link to design-principles or skill `references/` for detail. App Builder–specific reference lives under `.cursor/skills/app-builder-*/references/`; design-principles holds only cross-cutting invariants.
+- **Progressive disclosure**: Discovery (name/description) → Activation (full SKILL.md) → Execution (follow instructions, load referenced docs). Keep SKILL.md under ~500 lines; link to design-principles or skill `references/` for detail. Platform-specific reference material lives under `.cursor/skills/[persona]/references/`; design-principles holds only cross-cutting invariants.
 - **Concise**: Assume the agent is capable; only add context it wouldn’t already have.
 
 **Project strategy (unchanged):** We keep **Principles** (what to load first), **Role Boundary** (does / does not), and **Output Contract**. We use **Instructions** (and optionally **When to Use**) so skills match best practice without dropping our values: constitution-first loading, specialist boundaries, procedural (not encyclopedic) body, and single source of truth in design-principles/impl-log.
@@ -150,7 +150,7 @@ description: One-line third-person: WHAT the persona does. Use when [trigger 1],
 ```
 
 **Frontmatter guidance**:
-- **name**: Lowercase, hyphenated, matches directory (e.g. `graph-db-specialist`).
+- **name**: Lowercase, hyphenated, matches directory (e.g. `postgres-specialist`, `react-frontend-developer`).
 - **description**: Third person, WHAT + WHEN, trigger terms; under 1024 chars.
 
 ---
@@ -220,10 +220,10 @@ The description drives **discovery** for personas.
 2. **WHAT and WHEN**  
    - **WHAT**: What the persona does.  
    - **WHEN**: When to use it (trigger scenarios).  
-   Example: “Use when writing Cypher queries, debugging Neo4j, or implementing graph traversals.”
+   Example: “Use when writing database queries, debugging schema issues, or implementing data migrations.”
 
 3. **Trigger terms**  
-   Include words/phrases that should trigger the persona (e.g. “Neo4j”, “Cypher”, “OpenWhisk”, “plan-new-backlog-story”).
+   Include words/phrases that should trigger the persona (e.g. technology names, domain keywords, command names like “plan-new-backlog-story”).
 
 4. **Size**  
    One concise line; stay within 1024 characters.
@@ -235,7 +235,7 @@ The description drives **discovery** for personas.
 Avoid these to keep personas and commands consistent:
 
 1. **Vague names**  
-   - ✅ `graph-db-specialist`, `dev-completed-implementation-task`  
+   - ✅ `postgres-specialist`, `dev-completed-implementation-task`  
    - ❌ `helper`, `utils`, `do-thing`
 
 2. **Description in first or second person**  
