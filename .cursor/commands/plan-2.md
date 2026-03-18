@@ -4,6 +4,10 @@
 **Chains to**: Security review (auto), then pause for ratification  
 **Was**: /story-review
 
+## Pre-flight
+
+Read and execute `.cursor/commands/_pre-flight-constitution-check.md` before proceeding.
+
 ## Load
 
 architect, dev-lead, security-expert skills (sequence)

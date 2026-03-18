@@ -3,6 +3,10 @@
 **Invoked by**: Cursor User with epic ID (from Jira) or feature brief  
 **Chains to**: /epic-2 (auto)
 
+## Pre-flight
+
+Read and execute `.cursor/commands/_pre-flight-constitution-check.md` before proceeding.
+
 `/epic-1` has two entry modes, determined by what the user provides. Both modes converge on the same output: a reviewed, validated `epic-plan.md` with ordered stories and cross-story contracts.
 
 **Mode detection**: If the user provides a Jira epic ID with child stories, use Mode B. If the user provides a brief or idea, use Mode A. If the Jira epic exists but has zero child stories, treat it as Mode A with the epic description as the brief.

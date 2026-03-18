@@ -10,6 +10,7 @@ description: Use when interviewing stakeholders regarding feature requests, plan
 - **Basic usage**: Instructions in this file (discovery, prioritize, story-plan, post-launch validation). When creating or pushing Jira issues (e.g. `/plan-story-complete`): if Jira project and component are defined in design-principles (vision or architecture), set `fields.project.key` and `fields.components` on the `create_jira_issue` payload.
 - **Constitution**: `docs/design-principles/vision.md`
 - **System state**: `docs/impl-log/architecture/index.md` (when checking Jira overlap)
+- **Domain skills MCP**: When writing stories that touch Adobe product surfaces (App Builder, Workfront, AEM, etc.), call `list_skills` on the `adobe-extensibility-mcp` MCP server to identify relevant skill domains, then `load_skill` to understand capability scope and constraints before writing acceptance criteria. See [adobe_extensibility_mcp](https://github.com/davidbenge/adobe_extensibility_mcp).
 
 ## Role Boundary
 **Does**: Discovery interviews, user stories, acceptance criteria, backlog conflict assessment. Problem-first, outcome-focused. Saying no (with rationale) if necessary.

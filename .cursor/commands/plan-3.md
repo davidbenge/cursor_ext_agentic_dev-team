@@ -4,6 +4,10 @@
 **Chains to**: Jira push, archive story artifacts, branch/commit/PR (standalone) or archive + Jira only (epic)  
 **Was**: /story-complete
 
+## Pre-flight
+
+Read and execute `.cursor/commands/_pre-flight-constitution-check.md` before proceeding.
+
 ## Pre-check
 
 - No open Tier 1 findings

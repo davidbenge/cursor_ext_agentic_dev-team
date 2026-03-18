@@ -23,15 +23,22 @@ A complete **agentic dev team** that lives inside your Cursor project. Rather th
 
 ### Domain Specialist Personas (examples)
 
-Five real specialist personas from the source project live in `.cursor/skills/examples/`. Use them as templates for building your own domain-specific skills:
+Adobe platform domain skills are provided by the **[Adobe Extensibility MCP](https://github.com/davidbenge/adobe_extensibility_mcp)** server — already pre-wired in `.cursor/mcp.json`. When your agents need Adobe-specific patterns, the MCP delivers them on demand:
 
-- `app-builder-actions-developer/` — Adobe App Builder / OpenWhisk microservice specialist
-- `app-builder-frontend-developer/` — Unified Shell Jamstack frontend specialist
-- `app-builder-mcp-developer/` — MCP server design and deployment specialist
-- `graph-db-specialist/` — RDF/OWL ontology and Neo4j knowledge graph specialist
-- `ims-login/` — Adobe IMS authentication integration specialist
+| MCP Skill | Coverage |
+|---|---|
+| `app-builder-actions` | App Builder backend actions on I/O Runtime |
+| `app-builder-frontend` | React + Adobe React Spectrum UI for extension points |
+| `workfront-extension` | Workfront product extension registration |
+| `workfront-tasks-api` | Workfront Tasks REST API (CRUD, bulk, queries) |
+| `workfront-issues-api` | Workfront Issues/Requests REST API |
+| `workfront-forms-api` | Workfront custom forms and parameterValues |
+| `workfront-projects-api` | Projects, Portfolios, Programs, Milestones |
+| `workfront-events-api` | Workfront Event Subscriptions (webhooks) |
+| `workfront-documents-api` | Document upload, versioning, organization |
+| `workfront-approvals-api` | Approval Processes — decisions, routes, status |
 
-See `.cursor/skills/examples/README.md` for how to adapt one for your project.
+Additional local example personas in `.cursor/skills/examples/` (graph-db-specialist, ims-login, app-builder-mcp-developer) serve as templates for building your own domain-specific skills for non-Adobe platforms. See `.cursor/skills/examples/README.md` for how to adapt one.
 
 ## The Workflow
 
@@ -60,7 +67,21 @@ The constitution files in `docs/design-principles/` are fill-in templates — se
 
 ## How to Adopt
 
-See [`QUICK_START.md`](QUICK_START.md) for the 5-step adoption guide.
+Open your project in Cursor and run one command:
+
+**New project:**
+```
+/setup-dev-process-new
+```
+
+**Existing project:**
+```
+/setup-dev-process-existing
+```
+
+The setup command handles everything interactively — project identity, constitution, personas, commands, and rules. No manual file editing required.
+
+For manual copy instructions and full details: [`QUICK_START.md`](QUICK_START.md)
 
 For the full process reference: [`docs/developer-setup/developer-process.md`](docs/developer-setup/developer-process.md)
 
@@ -72,15 +93,24 @@ For the full process reference: [`docs/developer-setup/developer-process.md`](do
 | `.cursor/skills/` | 6 core personas, ready to use |
 | `.cursor/skills/examples/` | 5 specialist personas from a live project |
 | `.cursor/rules/` | 4 Cursor rules — workflow hygiene, TypeScript, UI, scripts |
-| `.cursor/mcp.json` | MCP server config (context7 pre-wired) |
+| `.cursor/mcp.json` | MCP server config (Adobe Extensibility MCP pre-wired) |
 | `docs/design-principles/` | Fill-in constitution templates |
 | `docs/developer-setup/` | Process docs, skill authoring guide, developer process |
+
+## Works Better Together
+
+This framework pairs with the **[Adobe Extensibility MCP](https://github.com/davidbenge/adobe_extensibility_mcp)** server to form a complete AI dev team for Adobe platform development.
+
+| This repo | Adobe Extensibility MCP |
+|---|---|
+| The **team** — personas, workflow, commands, and process | The **knowledge** — curated Adobe developer patterns served on demand |
+
+When both are active, your AI agents follow structured workflow (this framework) while automatically pulling the right Adobe-specific guidance at the right moment (the MCP server). The MCP server is already pre-wired in `.cursor/mcp.json`.
 
 ## Requirements
 
 - [Cursor](https://cursor.sh) (agent skills and slash commands are Cursor features)
 - A Cursor project (new or existing)
-- Optional: [context7](https://context7.com) API key for the library-docs MCP server
 
 ## License
 

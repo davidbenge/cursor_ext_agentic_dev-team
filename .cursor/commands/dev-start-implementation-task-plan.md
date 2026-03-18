@@ -3,6 +3,10 @@
 **Invoked by**: Auto from dev-start-implementation-plan, or Cursor User  
 **Chains to**: Pause for human approval
 
+## Pre-flight
+
+Read and execute `.cursor/commands/_pre-flight-constitution-check.md` before proceeding.
+
 ## Load
 
 graph-db-specialist, app-builder-actions-developer, app-builder-frontend-developer, test-engineer, security-expert (in order; each reads previous sections)

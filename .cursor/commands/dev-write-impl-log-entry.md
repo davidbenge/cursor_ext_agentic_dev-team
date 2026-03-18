@@ -3,6 +3,10 @@
 **Invoked by**: Auto from /dev-completed-implementation or /dev-completed-implementation-task  
 **Chains to**: /dev-update-impl-log-index (auto)
 
+## Pre-flight
+
+Read and execute `.cursor/commands/_pre-flight-constitution-check.md` before proceeding.
+
 ## Load
 
 Relevant specialist skill for domain

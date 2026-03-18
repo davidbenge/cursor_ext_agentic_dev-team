@@ -3,6 +3,10 @@
 **Invoked by**: Cursor User when all epic stories are completed  
 **Chains to**: Jira update, archive, PR to stage
 
+## Pre-flight
+
+Read and execute `.cursor/commands/_pre-flight-constitution-check.md` before proceeding.
+
 ## Pre-check
 
 - All child stories are complete (status check via Jira MCP or local tracking)

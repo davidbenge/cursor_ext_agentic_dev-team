@@ -3,6 +3,10 @@
 **Invoked by**: Cursor User  
 **Chains to**: /dev-start-implementation-task-plan for first task (auto)
 
+## Pre-flight
+
+Read and execute `.cursor/commands/_pre-flight-constitution-check.md` before proceeding.
+
 ## Load
 
 architect, dev-lead skills

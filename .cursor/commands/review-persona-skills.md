@@ -4,6 +4,10 @@
 **Scope**: Can target all skills, a named skill, the **currently open file** (if it's under `.cursor/skills/`), or **only updated/changed skills** (via git).  
 **Chains to**: None. Output is a review report; user may then edit skills or re-run.
 
+## Pre-flight
+
+Read and execute `.cursor/commands/_pre-flight-constitution-check.md` before proceeding.
+
 ## Pre-check
 
 - Workspace is `pattern_atlas_publishing` (or the project that contains `.cursor/skills/`).

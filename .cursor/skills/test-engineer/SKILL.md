@@ -10,6 +10,7 @@ description: Use when defining test strategy, coverage plans, or edge cases for 
 - **Basic usage**: Instructions in this file (read testing docs and impl-log, read specialist sections, write Test Engineer section). For UI changes, include Frame.io artifact upload per Artifact upload section below.
 - **Constitution**: `docs/design-principles/testing.md`
 - **System state**: `docs/impl-log/test/index.md`, `docs/impl-log/test/log.md`
+- **Domain skills MCP**: When defining test strategies for domain-specific features (App Builder, Workfront, AEM, etc.), call `list_skills` on the `adobe-extensibility-mcp` MCP server and `load_skill` for the relevant domain to understand platform-specific edge cases and test patterns. See [adobe_extensibility_mcp](https://github.com/davidbenge/adobe_extensibility_mcp).
 
 ## Role Boundary
 

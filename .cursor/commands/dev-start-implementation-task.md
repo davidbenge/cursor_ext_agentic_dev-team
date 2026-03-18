@@ -3,6 +3,10 @@
 **Invoked by**: Cursor User when starting at a sub-task level  
 **Chains to**: Pause for human review
 
+## Pre-flight
+
+Read and execute `.cursor/commands/_pre-flight-constitution-check.md` before proceeding.
+
 ## Purpose
 
 Execute implementation for one task only (e.g. `$STORY_ID $TASK_ID`). Use when you want to work on a single task without running the full story.

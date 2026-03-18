@@ -3,6 +3,10 @@
 **Invoked by**: Cursor User  
 **Chains to**: Jira push, archive story artifacts
 
+## Pre-flight
+
+Read and execute `.cursor/commands/_pre-flight-constitution-check.md` before proceeding.
+
 ## Pre-check
 
 - No open Tier 1 findings

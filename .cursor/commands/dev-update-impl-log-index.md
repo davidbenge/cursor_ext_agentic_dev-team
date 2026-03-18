@@ -3,6 +3,10 @@
 **Invoked by**: Auto from /dev-write-impl-log-entry  
 **Chains to**: End
 
+## Pre-flight
+
+Read and execute `.cursor/commands/_pre-flight-constitution-check.md` before proceeding.
+
 ## Load
 
 Relevant specialist skill for domain

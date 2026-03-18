@@ -9,3 +9,4 @@
 6. Tier 2 security finding requires human Disposition
 7. Large artifacts (>50 lines) extracted to files, linked from task-plan
 8. Epic stories share a single branch (epic/<ID>); no per-story sub-branches within an epic
+9. Before starting any domain-specific implementation task, call `list_skills` on the `adobe-extensibility-mcp` MCP server to discover available skill domains, then call `load_skill` for any relevant domain before writing code. Source: https://github.com/davidbenge/adobe_extensibility_mcp

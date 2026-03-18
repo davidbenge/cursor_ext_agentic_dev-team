@@ -10,6 +10,7 @@
 - **Current system state**: [docs/impl-log/](../docs/impl-log/)
 - **Developer setup**: [docs/developer-setup/](../docs/developer-setup/)
 - **Persona skills**: `.cursor/skills/[persona]/SKILL.md` (product-manager, architect, dev-lead, test-engineer, security-expert, orchestrator — plus any domain specialists you add) — first-class Cursor skills, auto-discovered
+- **Domain skills MCP** (check before starting any domain-specific task): Use the `adobe-extensibility-mcp` MCP server — call `list_skills` to see available domains, then `load_skill` for the relevant one. Source: [github.com/davidbenge/adobe_extensibility_mcp](https://github.com/davidbenge/adobe_extensibility_mcp). Available domains include: `app-builder-actions`, `app-builder-frontend`, `workfront-extension`, `workfront-tasks-api`, `workfront-issues-api`, `workfront-forms-api`, `workfront-projects-api`, `workfront-events-api`, `workfront-documents-api`, `workfront-approvals-api`.
 - **Commands**: `.cursor/commands/` — plan-1/2/3, dev-1/2/3, epic-1/2/3, debates, log-entry, index-update, skill-review, setup-dev-process-new, setup-dev-process-existing
 - **Rules**: `.cursor/rules/multi-persona-workflow.mdc`
 

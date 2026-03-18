@@ -3,6 +3,10 @@
 **Invoked by**: Auto from /epic-1, or Cursor User  
 **Chains to**: Pause for user to begin story work
 
+## Pre-flight
+
+Read and execute `.cursor/commands/_pre-flight-constitution-check.md` before proceeding.
+
 ## Load
 
 architect, dev-lead, security-expert skills (sequence)

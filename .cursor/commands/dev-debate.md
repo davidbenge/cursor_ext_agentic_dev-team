@@ -4,6 +4,10 @@
 **Chains to**: Pause for human  
 **Was**: /plan-review
 
+## Pre-flight
+
+Read and execute `.cursor/commands/_pre-flight-constitution-check.md` before proceeding.
+
 ## Load
 
 architect skill

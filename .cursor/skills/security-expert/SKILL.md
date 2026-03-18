@@ -10,6 +10,7 @@ description: Use when reviewing threat surface, vulnerability patterns, auth con
 - **Basic usage**: Instructions in this file (read security docs, scan log, write Security Expert Review with risk tier table).
 - **Constitution**: `docs/design-principles/security.md`
 - **System state**: `docs/impl-log/security/index.md`, `docs/impl-log/security/risk-register.md`, `docs/impl-log/security/log.md`
+- **Domain skills MCP**: When reviewing stories that involve Adobe platform integrations, call `list_skills` on the `adobe-extensibility-mcp` MCP server and `load_skill` for any relevant domain to understand the platform's auth, token, and data exposure patterns before assessing risk. See [adobe_extensibility_mcp](https://github.com/davidbenge/adobe_extensibility_mcp).
 
 ## Role Boundary
 

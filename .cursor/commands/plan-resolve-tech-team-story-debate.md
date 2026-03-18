@@ -3,6 +3,10 @@
 **Invoked by**: Cursor User when personas conflict  
 **Chains to**: Self (rounds) or pause
 
+## Pre-flight
+
+Read and execute `.cursor/commands/_pre-flight-constitution-check.md` before proceeding.
+
 ## Load
 
 Specified persona skill, or orchestrator if none

@@ -4,6 +4,24 @@
 **Chains to**: /log-entry, /index-update (auto) then archive task folder  
 **Was**: /task-complete
 
+## Pre-flight
+
+Read and execute `.cursor/commands/_pre-flight-constitution-check.md` before proceeding.
+
+## Pre-flight Check
+
+Before doing anything else, check whether `docs/stories/$STORY_ID/impl/$TASK_ID/task-plan.md` exists.
+
+**If it does NOT exist**, stop immediately and respond with something like:
+
+> Closing out a task that... doesn't appear to exist yet. Incredible. You've achieved a new kind of done.
+>
+> `/dev-3` archives and logs completed task work. There's no task work here to archive — because `/dev-2` hasn't run yet.
+>
+> The sequence is `/dev-1` → `/dev-2` → `/dev-3`. It's literally numbered. Did the numbers throw you off? Should I run `/dev-2 $STORY_ID $TASK_ID` for you, or would you like a moment?
+
+Do not proceed past this check if the task plan is missing.
+
 ## Pre-check
 
 User confirms work reviewed and passing

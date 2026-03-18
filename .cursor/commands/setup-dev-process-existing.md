@@ -22,7 +22,8 @@ This command is written to be **very verbose** — it explains what it is doing 
 
 - Read package.json (or equivalent: requirements.txt, Cargo.toml, go.mod, etc.)
 - Identify frameworks, libraries, database drivers, test frameworks, build tools
-- Report: "Based on your dependencies, I believe your tech stack is: Frontend: [X], Backend: [Y], Database: [Z], Testing: [W]"
+- For Adobe App Builder projects, specifically look for: `@adobe/aio-lib-state`, `@adobe/aio-lib-files`, `@adobe/aio-lib-db`, `@adobe/aio-lib-core-ims`, `@adobe/aio-sdk`, `@adobe/react-spectrum`
+- Report: "Based on your dependencies, I believe your tech stack is: Frontend: [X], Backend: [Y], Storage: [Z — include App Builder State/Files/Database if detected], Testing: [W]"
 
 ### Scan — Source Code Patterns
 
@@ -68,14 +69,145 @@ This command is written to be **very verbose** — it explains what it is doing 
 - Present to user: "Based on what I see, here is a proposed vision for this project. Correct anything that is wrong or incomplete."
 - Adjust, confirm before proceeding
 
+### Detect App Builder Extension Points
+
+**What this step does:** If the project appears to be an App Builder project (detected `@adobe/aio-sdk` dependency, `app.config.yaml`, or `src/*/ext.config.yaml`), scan `src/` for known extension point directory signatures and pre-select any matches. Skip this step entirely if the project is not an App Builder project.
+
+Scan the `src/` directory for subdirectories matching any known extension point directory signature. Pre-select any that are found:
+
+| Extension Point | XP Path | `src/` directory |
+|---|---|---|
+| Unified Shell / Firefly Experience Cloud Shell | `dx/excshell/1` | `src/dx-excshell-1/` |
+| Asset Compute Worker | `dx/asset-compute/worker/1` | `src/dx-asset-compute-worker-1/` |
+| AEM Content Fragment Console Extension | `aem/cf-console-admin/1` | `src/aem-cf-console-admin-1/` |
+| Adobe Commerce UI extensions (admin panel) | `commerce/backend-ui/1` | `src/commerce-backend-ui-1/` |
+| AEM Content Fragment Editor Extension | `aem/cf-editor/1` | `src/aem-cf-editor-1/` |
+| Universal Editor Extension | `universal-editor/ui/1` | `src/universal-editor-ui-1/` |
+| Workfront Document Details | `workfront/doc-details/1` | `src/workfront-doc-details-1/` |
+| Workfront UI | `workfront/ui/1` | `src/workfront-ui-1/` |
+| AEM Experience Success Studio | `aem/experience-success-studio/1` | `src/aem-experience-success-studio-1/` |
+| AEM Assets Details View Extension | `aem/assets/details/1` | `src/aem-assets-details-1/` |
+| AEM Assets Browse Extension | `aem/assets/browse/1` | `src/aem-assets-browse-1/` |
+| AEM Assets Collections Extension | `aem/assets/collections/1` | `src/aem-assets-collections-1/` |
+| GenStudio for Performance Marketing | `dx_genstudio/genstudiopem/1` | `src/dx_genstudio-genstudiopem-1/` |
+| GenStudio Translation | `dx_genstudio/translation/1` | `src/dx_genstudio-translation-1/` |
+| AEM Content Hub Asset Details | `aem/contenthub/assets/details/1` | `src/aem-contenthub-assets-details-1/` |
+| AEM Launchpad Extension | `aem/launchpad/1` | `src/aem-launchpad-1/` |
+| AEM Content Fragment Model Editor | `aem/cf-model-editor/1` | `src/aem-cf-model-editor-1/` |
+| Adobe Commerce configuration (admin panel) | `commerce/configuration/1` | `src/commerce-configuration-1/` |
+| Adobe Commerce extensibility (app management) | `commerce/extensibility/1` | `src/commerce-extensibility-1/` |
+
+Report: "Based on your `src/` directory structure, I detected these extension points in use: [list]. Does this look right? Are there any you want to add or remove?"
+
+**If `src/workfront-ui-1/` is detected (or selected), also scan `ExtensionRegistration.js` for registered hooks and pre-select accordingly, then confirm:**
+
+- **Main Menu** (`mainMenu`) — detected if `mainMenu:` key is present in `ExtensionRegistration.js`
+- **Secondary Navigation / Left Panel** (`secondaryNav`) — detected if `secondaryNav:` key is present; identify which object types (`PROJECT`, `TASK`, `ISSUE`, `PORTFOLIO`, `PROGRAM`) are registered
+- **Forms Widget** (`widgets`) — detected if `widgets:` key is present
+
+Report: "I detected these Workfront hooks in use: [list]. Does this look right?" Allow the user to correct. Record the confirmed hooks in `docs/design-principles/architecture.md`.
+
+Once confirmed, the selected extension points are written into `docs/design-principles/architecture.md` under an **App Builder Extension Points** section. If multiple extension points are selected, include the note: "When running locally with multiple extension points, use `aio app run -e <dir-name>` to target a specific one."
+
 ### Propose — Architecture and Domain Principles
 
-- Draft `docs/design-principles/architecture.md` based on detected module structure, patterns, and boundaries
+- Draft `docs/design-principles/architecture.md` based on detected module structure, patterns, and boundaries. If App Builder is in use, include the confirmed **App Builder Extension Points** section from the step above.
 - Draft `docs/design-principles/db.md` based on detected database usage (e.g. "I see Neo4j driver in dependencies and these Cypher files; here is a proposed db.md")
 - Draft `docs/design-principles/frontend.md` based on detected UI framework, component patterns
 - Draft `docs/design-principles/backend.md` based on detected API patterns, service structure
 - Present each to user: "Based on these files and patterns, here is what I propose. Correct anything."
 - Adjust, confirm each before proceeding
+
+### Select Backend MCP Domain Skills
+
+**What this step does:** Populates the MCP Domain Skills checklist in `docs/design-principles/backend.md` so the `backend-specialist` persona knows exactly which domain skills to load.
+
+First, based on the tech stack scan from Phase 1, pre-select any domains that are clearly present (e.g. if App Builder dependencies are detected, pre-check `app-builder-actions`; if Workfront API calls are detected, pre-check the relevant Workfront domains). Report: "Based on what I found in your codebase, I suggest these domains are already in use: [list]. Does this look right?"
+
+Then present the user with two options for finalizing the selection:
+
+**Option A — Checklist (confirm or adjust the detected selection)**
+
+Show the full list with pre-checked items and ask the user to confirm, add, or remove:
+
+- `app-builder-actions` — App Builder serverless actions and I/O Runtime
+- `workfront-tasks-api` — Workfront task operations
+- `workfront-issues-api` — Workfront issue/request handling
+- `workfront-forms-api` — Workfront custom form fields
+- `workfront-projects-api` — Workfront project lifecycle
+- `workfront-events-api` — Workfront event subscriptions and webhooks
+- `workfront-documents-api` — Workfront document management
+- `workfront-approvals-api` — Workfront approval routing
+- `workfront-extension` — Workfront UI extension backend hooks
+
+**Option B — Describe your needs (I'm not sure)**
+
+Ask: "Describe what your backend does — what external systems does it talk to, what operations does it perform, what events does it respond to?" Then recommend which domains apply, explain why each was chosen, and ask the user to confirm before committing.
+
+Once selections are confirmed (via either path), update `docs/design-principles/backend.md`: change `- [ ]` to `- [x]` for each selected domain and remove unchecked items.
+
+### Select Frontend MCP Domain Skills
+
+**What this step does:** Populates the MCP Domain Skills checklist in `docs/design-principles/frontend.md` so the `frontend-specialist` persona knows exactly which domain skills to load. Skip this step if the project has no frontend.
+
+First, based on the tech stack scan from Phase 1, pre-select any domains that are clearly present (e.g. if App Builder `web-src/` is detected or `@adobe/react-spectrum` is in dependencies, pre-check `app-builder-frontend`; if `workfront-ui-1` extension point patterns are detected, pre-check `workfront-extension`). Report: "Based on what I found in your codebase, I suggest these frontend domains are already in use: [list]. Does this look right?"
+
+Then present the user with two options for finalizing the selection:
+
+**Option A — Checklist (confirm or adjust the detected selection)**
+
+Show the full list with pre-checked items and ask the user to confirm, add, or remove:
+
+- `app-builder-frontend` — App Builder frontend apps (Unified Shell / dx-excshell-1, React Spectrum)
+- `workfront-extension` — Workfront UI extensions (workfront-ui-1 extension point)
+
+**Option B — Describe your needs (I'm not sure)**
+
+Ask: "Describe your frontend — what UI surface does it run in, what component library does it use, and does it extend any Adobe product?" Then recommend which domains apply, explain why each was chosen, and ask the user to confirm before committing.
+
+Once selections are confirmed (via either path), update `docs/design-principles/frontend.md`: change `- [ ]` to `- [x]` for each selected domain and remove unchecked items.
+
+### Select DB / Storage MCP Domain Skills
+
+**What this step does:** Populates the MCP Domain Skills checklist in `docs/design-principles/db.md` and records which storage services this project uses. Skip this step if the project has no persistent data layer.
+
+First, based on the Phase 1 dependency and source code scan, identify storage patterns already in use:
+- If `@adobe/aio-lib-state` is detected → pre-select **App Builder State**
+- If `@adobe/aio-lib-files` is detected → pre-select **App Builder Files**
+- If `@adobe/aio-lib-db` is detected → pre-select **App Builder Database**
+- If Neo4j, Postgres, MongoDB, DynamoDB drivers are detected → pre-select **External database** and name it
+
+Report: "Based on what I found in your codebase, I believe you are using these storage services: [list]. Does this look right?"
+
+Explain the three Adobe App Builder storage services if any are in use:
+
+| Service | Best for | Max size |
+|---|---|---|
+| **State** (`@adobe/aio-lib-state`) | Session data, caching, TTL-expiring config | 1 MB/value |
+| **Files** (`@adobe/aio-lib-files`) | Images, documents, large payloads, shareable URLs | 200 GB |
+| **Database** (`@adobe/aio-lib-db`) | Complex queries, relationships, aggregations | 16 MB/document |
+
+Reference: [Adobe App Builder Storage Options](https://developer.adobe.com/app-builder/docs/guides/app_builder_guides/storage/)
+
+Then present the user with two options for finalizing the selection:
+
+**Option A — Checklist (confirm or adjust the detected selection)**
+
+Ask the user to confirm, add, or remove:
+
+- **App Builder State** — key-value, TTL support, best for sessions/cache/config under 1 MB
+- **App Builder Files** — blob storage, shareable URLs, best for images/documents/exports
+- **App Builder Database** — MongoDB-compatible document store, best for complex queries and relationships
+- **External database** (Neo4j, PostgreSQL, MongoDB Atlas, DynamoDB, etc.) — specify which
+
+**Option B — Describe your needs (I'm not sure)**
+
+Ask: "Describe the data your project stores — what kind of data, how it's queried, and how large it gets." Then recommend which App Builder storage service(s) or external database applies, explain why, and ask the user to confirm before committing.
+
+Once confirmed, update `docs/design-principles/db.md`:
+- Fill in the Tech Stack section with the chosen storage services and region (inferred from codebase where possible)
+- If App Builder storage is used, mark `app-builder-actions` as `- [x]` in the MCP Domain Skills checklist and remove unchecked items
+- If only an external database is used, remove the MCP checklist items and note it in the Tech Stack section
 
 ---
 

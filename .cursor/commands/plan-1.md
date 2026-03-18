@@ -4,6 +4,10 @@
 **Chains to**: /plan-2 (auto)  
 **Was**: /story-plan
 
+## Pre-flight
+
+Read and execute `.cursor/commands/_pre-flight-constitution-check.md` before proceeding.
+
 ## Load
 
 product-manager skill

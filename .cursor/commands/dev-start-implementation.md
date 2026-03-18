@@ -3,6 +3,10 @@
 **Invoked by**: Cursor User (after plan approved)  
 **Chains to**: Task execution in new context windows (per dependency order); then inform user when whole plan is done for review
 
+## Pre-flight
+
+Read and execute `.cursor/commands/_pre-flight-constitution-check.md` before proceeding.
+
 ## Parameters
 
 Pass **story ID** (e.g. `{{JIRA_PREFIX}}-51`). Optionally pass a path to the impl plan if it lives outside the default (e.g. under `docs/impl-log/stories/$STORY_ID/impl/plan.md`).

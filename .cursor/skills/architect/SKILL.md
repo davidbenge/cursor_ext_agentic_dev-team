@@ -10,6 +10,7 @@ description: Use when reviewing story architectural impact for governance, appli
 - **Basic usage**: Instructions in this file (story review, architecture docs, impl planning, plan review).
 - **Constitution**: `docs/design-principles/architecture.md`, `docs/design-principles/vision.md`
 - **System state**: `docs/impl-log/architecture/index.md`, all domain `docs/impl-log/*/index.md` files
+- **Domain skills MCP**: Before reviewing any domain-specific implementation, call `list_skills` on the `adobe-extensibility-mcp` MCP server to check for available skill domains relevant to the story, then `load_skill` for any that apply. See [adobe_extensibility_mcp](https://github.com/davidbenge/adobe_extensibility_mcp).
 
 ## Role Boundary
 

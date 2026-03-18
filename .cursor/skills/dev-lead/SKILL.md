@@ -10,6 +10,7 @@ description: Use when estimating implementation effort, identifying technical ri
 - **Basic usage**: Instructions in this file (review story-plan, write Dev Lead Review).
 - **Constitution**: `docs/design-principles/architecture.md`, `docs/design-principles/backend.md`
 - **System state**: `docs/impl-log/architecture/index.md`, `docs/impl-log/architecture/log.md`
+- **Domain skills MCP**: Before estimating effort or assessing feasibility for domain-specific work, call `list_skills` on the `adobe-extensibility-mcp` MCP server to identify relevant skill domains, then `load_skill` to understand implementation patterns and constraints. See [adobe_extensibility_mcp](https://github.com/davidbenge/adobe_extensibility_mcp).
 
 ## Role Boundary
 

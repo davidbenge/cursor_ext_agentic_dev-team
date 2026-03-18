@@ -65,7 +65,20 @@ Edit `.cursor/AGENTS.md` and replace `{{PROJECT_NAME}}` with your actual project
 
 ### Step 4 — Add domain specialist skills (optional)
 
-Copy any of the example skills from `.cursor/skills/examples/` into `.cursor/skills/` and adapt the `SKILL.md` for your domain. See [`.cursor/skills/examples/README.md`](.cursor/skills/examples/README.md) for the authoring guide.
+**Preferred — use the Skills MCP Server**: The [Adobe Extensibility MCP](https://github.com/davidbenge/adobe_extensibility_mcp) provides on-demand domain skills for App Builder, Workfront, AEM, and more. Add it to `.cursor/mcp.json` and agents will call `list_skills` / `load_skill` automatically:
+
+```json
+{
+  "mcpServers": {
+    "adobe-extensibility-mcp": {
+      "type": "streamable-http",
+      "url": "https://27200-adobeextmcp.adobeioruntime.net/api/v1/web/adobe-extensibility-mcp/skills-mcp"
+    }
+  }
+}
+```
+
+**Alternative — local skill files**: Copy any of the example skills from `.cursor/skills/examples/` into `.cursor/skills/` and adapt the `SKILL.md` for your domain. See [`.cursor/skills/examples/README.md`](.cursor/skills/examples/README.md) for the authoring guide.
 
 ### Step 5 — Start working
 

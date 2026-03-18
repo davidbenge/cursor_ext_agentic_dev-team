@@ -4,6 +4,24 @@
 **Chains to**: Pause for human approval  
 **Was**: /task-kickoff
 
+## Pre-flight
+
+Read and execute `.cursor/commands/_pre-flight-constitution-check.md` before proceeding.
+
+## Pre-flight Check
+
+Before doing anything else, check whether `docs/stories/$STORY_ID/impl/plan.md` exists.
+
+**If it does NOT exist**, stop immediately and respond with something like:
+
+> Interesting strategy — skipping `/dev-1` and diving straight into tasks. No implementation plan, no task list, no dependency order. Just vibes.
+>
+> Here's the thing: `/dev-2` *executes* the plan that `/dev-1` *creates*. Running this without that is like showing up to build a house without blueprints. Impressive confidence, genuinely.
+>
+> Run `/dev-1 $STORY_ID` first. Or just ask me to do it — I promise I won't judge you. Much.
+
+Do not proceed past this check if the impl plan is missing.
+
 ## Invocation Modes
 
 ### Single task

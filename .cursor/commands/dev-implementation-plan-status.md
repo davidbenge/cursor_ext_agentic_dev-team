@@ -3,6 +3,10 @@
 **Invoked by**: Cursor User  
 **Chains to**: None (roll-up report only)
 
+## Pre-flight
+
+Read and execute `.cursor/commands/_pre-flight-constitution-check.md` before proceeding.
+
 ## Purpose
 
 Show roll-up status of the implementation plan: tasks listed, which have task-plan.md, which are complete/archived, any blockers or security flags.

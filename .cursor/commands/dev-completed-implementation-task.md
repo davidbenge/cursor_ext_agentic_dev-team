@@ -3,6 +3,10 @@
 **Invoked by**: Cursor User when task work is reviewed and passing  
 **Chains to**: /dev-write-impl-log-entry, /dev-update-impl-log-index (auto) then archive task folder
 
+## Pre-flight
+
+Read and execute `.cursor/commands/_pre-flight-constitution-check.md` before proceeding.
+
 ## Parameters
 
 Pass **task ID only** (e.g. `T1`) when the story is clear from context, or **story ID and task ID** (e.g. `{{JIRA_PREFIX}}-51 T1`).

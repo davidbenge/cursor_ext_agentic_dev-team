@@ -4,6 +4,24 @@
 **Chains to**: /dev-2 for first task (auto)  
 **Was**: /plan-kickoff
 
+## Pre-flight
+
+Read and execute `.cursor/commands/_pre-flight-constitution-check.md` before proceeding.
+
+## Pre-flight Check
+
+Before doing anything else, check whether `docs/stories/$STORY_ID/story-plan.md` exists.
+
+**If it does NOT exist**, stop immediately and respond with something like:
+
+> Oh wow, bold move. You skipped `/plan-1` and came straight here — very "measure twice, cut once" energy, except you skipped the measuring part entirely.
+>
+> You need to run `/plan-1` first so we actually have a story plan to implement. Wild concept, I know.
+>
+> Need me to spell it out? `/plan-1 $STORY_ID`. Or just say the word and I'll run it for you. Your call, speed racer.
+
+Do not proceed past this check if the story-plan is missing.
+
 ## Load
 
 architect, dev-lead skills

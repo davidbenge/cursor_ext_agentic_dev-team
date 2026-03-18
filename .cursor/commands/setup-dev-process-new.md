@@ -59,16 +59,139 @@ Show vision.md to user. Adjust and confirm before proceeding.
 
 - Frontend framework (e.g. React, Vue, none)
 - Backend runtime / framework (e.g. Node.js, Python, App Builder / OpenWhisk)
-- Database (e.g. Neo4j, PostgreSQL, MongoDB)
+- Data storage (e.g. App Builder State/Files/Database, Neo4j, PostgreSQL, MongoDB — see [Adobe storage options](https://developer.adobe.com/app-builder/docs/guides/app_builder_guides/storage/) if on App Builder)
 - Deployment platform (e.g. Adobe I/O Runtime, AWS, Azure)
 - UI component library (e.g. React Spectrum, Material UI, custom)
 
+### Select App Builder Extension Points
+
+**What this step does:** If the user selected Adobe I/O Runtime / App Builder as the deployment platform, ask which Adobe product surfaces this app extends. This determines the `src/` directory layout and is written into `docs/design-principles/architecture.md`. Skip this step entirely if the project is not an App Builder project.
+
+Explain: "Each App Builder extension point gets its own directory under `src/`. The directory name is derived from the XP path (slashes become hyphens). You can extend multiple surfaces in one app."
+
+Present the full list and ask the user to select all that apply:
+
+| # | Extension Point | XP Path | `src/` directory |
+|---|---|---|---|
+| 1 | Unified Shell / Firefly Experience Cloud Shell (experience.adobe.com) | `dx/excshell/1` | `src/dx-excshell-1/` |
+| 2 | Asset Compute Worker | `dx/asset-compute/worker/1` | `src/dx-asset-compute-worker-1/` |
+| 3 | AEM Content Fragment Console Extension | `aem/cf-console-admin/1` | `src/aem-cf-console-admin-1/` |
+| 4 | Adobe Commerce UI extensions (admin panel) | `commerce/backend-ui/1` | `src/commerce-backend-ui-1/` |
+| 5 | AEM Content Fragment Editor Extension | `aem/cf-editor/1` | `src/aem-cf-editor-1/` |
+| 6 | Universal Editor Extension | `universal-editor/ui/1` | `src/universal-editor-ui-1/` |
+| 7 | Workfront Document Details | `workfront/doc-details/1` | `src/workfront-doc-details-1/` |
+| 8 | Workfront UI | `workfront/ui/1` | `src/workfront-ui-1/` |
+| 9 | AEM Experience Success Studio | `aem/experience-success-studio/1` | `src/aem-experience-success-studio-1/` |
+| 10 | AEM Assets Details View Extension | `aem/assets/details/1` | `src/aem-assets-details-1/` |
+| 11 | AEM Assets Browse Extension | `aem/assets/browse/1` | `src/aem-assets-browse-1/` |
+| 12 | AEM Assets Collections Extension | `aem/assets/collections/1` | `src/aem-assets-collections-1/` |
+| 13 | GenStudio for Performance Marketing | `dx_genstudio/genstudiopem/1` | `src/dx_genstudio-genstudiopem-1/` |
+| 14 | GenStudio Translation | `dx_genstudio/translation/1` | `src/dx_genstudio-translation-1/` |
+| 15 | AEM Content Hub Asset Details | `aem/contenthub/assets/details/1` | `src/aem-contenthub-assets-details-1/` |
+| 16 | AEM Launchpad Extension | `aem/launchpad/1` | `src/aem-launchpad-1/` |
+| 17 | AEM Content Fragment Model Editor | `aem/cf-model-editor/1` | `src/aem-cf-model-editor-1/` |
+| 18 | Adobe Commerce configuration (admin panel) | `commerce/configuration/1` | `src/commerce-configuration-1/` |
+| 19 | Adobe Commerce extensibility (app management) | `commerce/extensibility/1` | `src/commerce-extensibility-1/` |
+
+Also ask: "Are you unsure or planning to add extension points later? If so, I'll leave a placeholder section."
+
+**If the user selects Workfront UI (`workfront/ui/1`), ask a follow-up:**
+
+"Workfront UI supports three extension hooks inside `ExtensionRegistration.js`. Which will this project use? (Select all that apply)"
+
+- **Main Menu** (`mainMenu`) — adds items to the Workfront top navigation bar; surfaces via layout templates
+- **Secondary Navigation / Left Panel** (`secondaryNav`) — adds left-panel items for specific object types; ask: "Which object types? (PROJECT, TASK, ISSUE, PORTFOLIO, PROGRAM)"
+- **Forms Widget** (`widgets`) — embeds custom UI panels inside Workfront custom form fields
+
+Record the confirmed hook selections in `docs/design-principles/architecture.md` alongside the extension point entry.
+
+Once confirmed, the selected extension points will be written into `docs/design-principles/architecture.md` under an **App Builder Extension Points** section (see Generate step below).
+
 ### Generate
 
-- `docs/design-principles/architecture.md` — system mandates, patterns, boundaries (seeded from tech stack)
+- `docs/design-principles/architecture.md` — system mandates, patterns, boundaries (seeded from tech stack). If App Builder is the platform, include an **App Builder Extension Points** section listing each selected extension point with its XP path, `src/` directory, and whether it has actions/frontend. If multiple extension points are selected, include the note: "When running locally with multiple extension points, use `aio app run -e <dir-name>` to target a specific one."
 - `docs/design-principles/db.md` — data philosophy, naming conventions, schema rules (seeded from DB choice)
 - `docs/design-principles/frontend.md` — UI principles, component philosophy (seeded from frontend/UI answers)
 - `docs/design-principles/backend.md` — API design philosophy, service boundaries (seeded from backend answers)
+
+### Select Backend MCP Domain Skills
+
+**What this step does:** Populates the MCP Domain Skills checklist in `docs/design-principles/backend.md` so the `backend-specialist` persona knows exactly which domain skills to load.
+
+Present the user with two options:
+
+**Option A — Checklist (I know what I need)**
+
+Show this list and ask the user to select all that apply:
+
+- `app-builder-actions` — App Builder serverless actions and I/O Runtime
+- `workfront-tasks-api` — Workfront task operations
+- `workfront-issues-api` — Workfront issue/request handling
+- `workfront-forms-api` — Workfront custom form fields
+- `workfront-projects-api` — Workfront project lifecycle
+- `workfront-events-api` — Workfront event subscriptions and webhooks
+- `workfront-documents-api` — Workfront document management
+- `workfront-approvals-api` — Workfront approval routing
+- `workfront-extension` — Workfront UI extension backend hooks
+
+**Option B — Describe your needs (I'm not sure)**
+
+Ask: "Describe what your backend does — what external systems does it talk to, what operations does it perform, what events does it respond to?" Then recommend which domains apply, explain why each was chosen, and ask the user to confirm before committing.
+
+Once selections are confirmed (via either path), update `docs/design-principles/backend.md`: change `- [ ]` to `- [x]` for each selected domain and remove unchecked items.
+
+### Select Frontend MCP Domain Skills
+
+**What this step does:** Populates the MCP Domain Skills checklist in `docs/design-principles/frontend.md` so the `frontend-specialist` persona knows exactly which domain skills to load. Skip this step if the project has no frontend.
+
+Present the user with two options:
+
+**Option A — Checklist (I know what I need)**
+
+Show this list and ask the user to select all that apply:
+
+- `app-builder-frontend` — App Builder frontend apps (Unified Shell / dx-excshell-1, React Spectrum)
+- `workfront-extension` — Workfront UI extensions (workfront-ui-1 extension point)
+
+**Option B — Describe your needs (I'm not sure)**
+
+Ask: "Describe your frontend — what UI surface does it run in, what component library does it use, and does it extend any Adobe product?" Then recommend which domains apply, explain why each was chosen, and ask the user to confirm before committing.
+
+Once selections are confirmed (via either path), update `docs/design-principles/frontend.md`: change `- [ ]` to `- [x]` for each selected domain and remove unchecked items.
+
+### Select DB / Storage MCP Domain Skills
+
+**What this step does:** Populates the MCP Domain Skills checklist in `docs/design-principles/db.md` and records which Adobe App Builder storage services (State, Files, Database) this project uses. Skip this step if the project has no persistent data layer.
+
+First, explain the three Adobe App Builder storage services if the project is on App Builder:
+
+| Service | Best for | Max size |
+|---|---|---|
+| **State** (`@adobe/aio-lib-state`) | Session data, caching, TTL-expiring config | 1 MB/value |
+| **Files** (`@adobe/aio-lib-files`) | Images, documents, large payloads, shareable URLs | 200 GB |
+| **Database** (`@adobe/aio-lib-db`) | Complex queries, relationships, aggregations | 16 MB/document |
+
+Reference: [Adobe App Builder Storage Options](https://developer.adobe.com/app-builder/docs/guides/app_builder_guides/storage/)
+
+Present the user with two options:
+
+**Option A — Checklist (I know what I need)**
+
+Ask the user to select all that apply:
+
+- **App Builder State** — key-value, TTL support, best for sessions/cache/config under 1 MB
+- **App Builder Files** — blob storage, shareable URLs, best for images/documents/exports
+- **App Builder Database** — MongoDB-compatible document store, best for complex queries and relationships
+- **External database** (Neo4j, PostgreSQL, MongoDB Atlas, DynamoDB, etc.) — specify which
+
+**Option B — Describe your needs (I'm not sure)**
+
+Ask: "Describe the data your project stores — what kind of data, how it's queried, and how large it gets." Then recommend which App Builder storage service(s) or external database applies, explain why, and ask the user to confirm before committing.
+
+Once confirmed, update `docs/design-principles/db.md`:
+- Fill in the Tech Stack section with the chosen storage services and region
+- If App Builder storage is used, mark `app-builder-actions` as `- [x]` in the MCP Domain Skills checklist and remove unchecked items
+- If only an external database is used, remove the MCP checklist items and note it in the Tech Stack section
 
 ### Present
 

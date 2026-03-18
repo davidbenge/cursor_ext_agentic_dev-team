@@ -3,6 +3,10 @@
 **Invoked by**: Cursor User when ready to review and close out a story's implementation  
 **Chains to**: /dev-completed-implementation-task (per selected task), /plan-story-complete (user at end)
 
+## Pre-flight
+
+Read and execute `.cursor/commands/_pre-flight-constitution-check.md` before proceeding.
+
 ## Parameters
 
 Pass **story ID** (e.g. `{{JIRA_PREFIX}}-51`). The command reviews the full implementation and all its tasks for that story.
