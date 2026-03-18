@@ -1,10 +1,10 @@
-# Cursor Agentic Framework
+# Adobe Extensibility Cursor Agentic Development Framework
 
 A production-grade multi-persona AI development workflow for Cursor — extracted from a live enterprise project and ready to drop into any new or existing codebase.
 
 ## What This Is
 
-A complete **agentic dev team** that lives inside your Cursor project. Rather than talking to a single AI assistant, you orchestrate a roster of named personas — each with a distinct role, skill set, and scope — through a structured command pipeline. The AI team plans, debates, implements, logs, and reviews work the same way a real team does.
+A complete **agentic dev team** that lives inside your Cursor project. Rather than talking to a single AI assistant, you orchestrate a roster of named personas, each with a distinct role, skill set, and scope, through a structured command pipeline. The AI team plans, debates, implements, logs, and reviews work the same way a real team does.
 
 **The core insight**: giving the AI a named role, a scoped skill file, and a structured workflow produces dramatically more consistent, reviewable, and correct output than an open-ended prompt.
 
