@@ -1,4 +1,4 @@
-# Adobe Extensibility Cursor Agentic Development Framework
+# Adobe Extensibility Cursor Agentic Development Pattern
 
 A production-grade multi-persona AI development workflow for Cursor — extracted from a live enterprise project and ready to drop into any new or existing codebase.
 
